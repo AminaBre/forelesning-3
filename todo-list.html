@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do liste</title>
+</head>
+
+<body>
+    <div>
+        <input type="text" id="todo-input" placeholder="Skriv inn din todo...">
+        <input type="button" value="Legg til todo!" id="todo-btn">
+    </div>
+    <div class="todos-container" style="display: flex; width: 500px; flex-wrap: wrap;">
+    </div>
+    <script>
+        let todoArray = [];
+        const todosContainer = document.querySelector(".todos-container");
+        const todoBtn = document.querySelector("#todo-btn");
+
+        todoBtn.addEventListener("click", addTodo);
+
+        function addTodo() {
+            const todoTxtValue = document.querySelector("#todo-input").value;
+
+            todoArray.push({ todoTxtValue });
+            console.log(todoArray)
+            createTodoElement();
+        }
+
+        function createTodoElement() {
+            todosContainer.innerHTML = "";
+
+            todoArray.forEach((todo, index) => {
+                const todoContainer = document.createElement("div");
+                todoContainer.classList.add(`todo-container-${index}`)
+                const todoTxt = document.createElement("p");
+                todoTxt.innerHTML = todo.todoTxtValue;
+                console.log(todo)
+                const deleteBtn = document.createElement("button");
+                deleteBtn.innerHTML = "Slett";
+                deleteBtn.classList.add(`delete-todo-${index}`)
+
+                deleteBtn.addEventListener("click", function () {
+                    deleteTodo(index)
+                })
+
+                todoContainer.append(todoTxt, deleteBtn)
+                console.log("todo:", todo, "index", index)
+                todosContainer.append(todoContainer)
+            })
+
+        }
+
+        function deleteTodo(index) {
+            const todoContainer = document.querySelector(`.todo-container-${index}`)
+            console.log("index i delete", index, "container", todoContainer)
+            todoArray.splice(index, 1)
+
+            console.log(index)
+            todoContainer.remove();
+        }
+    </script>
+</body>
+
+</html>
